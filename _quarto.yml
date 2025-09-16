@@ -1,0 +1,59 @@
+project:
+  type: website
+  title: "Your Course Title"
+  output-dir: "_site"
+  
+website:
+  title: "Your Course Title"
+  description: "Your Course Description"
+  site-url: "https://your-site-url.com"
+  repo-url: "https://github.com/your-repo-url"
+  
+  navbar:
+    title: "Your Course Title"
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "Course Days"
+        menu:
+          - text: "Day 1: Title"
+            href: src/lectures/day1/lecture/index.qmd
+          - text: "Day 2: Title"
+            href: src/lectures/day2/lecture/index.qmd
+            # Add more days as needed
+    right:
+      - icon: github
+        href: "https://github.com/your-repo-url"
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - src/assets/styles.css # where custom styles are located
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 3
+    code-fold: false
+    code-tools: true
+    citations-hover: true
+    footnotes-hover: true
+    
+  revealjs:
+    theme: white
+    css: src/assets/styles.css
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    transition: slide
+    background-transition: fade
+    hash-type: number
+    controls: true
+    progress: true
+    center: false
+    
+execute:
+  freeze: auto
+  cache: true
+
+editor: visual
