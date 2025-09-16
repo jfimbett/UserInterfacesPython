@@ -6,7 +6,7 @@ Modify `_quarto.yml` to set your presentation title, author, and date.
 Modify `styles.css` to customize the appearance of your slides.
 Modify `.nojekyll` to make sure GitHub Pages works correctly.
 
-
+-------------------------------------------------------------------------------------------
 ## Example template for creating a set of slides 
 
 This repository provides a minimal template for creating a set of slides using Quarto, RevalJS. The general instructions are located in `.github/copilot-instructions.md`.
@@ -21,3 +21,15 @@ Instructor: Juan F. Imbet
 Course Title: Introduction to Python and Conda
 Course Description: This course provides a comprehensive introduction to Python programming and the Conda package management system.
 Program: Master 2 (203) in Financial Markets, Paris Dauphine - PSL University. 
+--------------------------------------------------------------------------------------------
+
+## GitHub Instructions
+
+- To create a new repository with this information, clone it with a different name and remove the `remote` connection. 
+- In the parent directory, run:
+```bash
+git clone https://github.com/jfimbett/TemplateCourse.git YourCourseName
+cd YourCourseName
+git remote remove origin
+gh repo create YourCourseName --public --source=. --remote=origin --push
+```
