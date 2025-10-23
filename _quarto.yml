@@ -39,6 +39,9 @@ format:
   revealjs:
     theme: white
     css: src/assets/styles.css
+    slide-level: 0 # Only create new slides on explicit '---' breaks
+    highlight-style: dracula # richer syntax colors
+    code-copy: true
     slide-number: true
     chalkboard: true
     preview-links: auto

@@ -79,6 +79,28 @@
     font-family: "Consolas", "Monaco", "Courier New", monospace;
 }
 
+/* Syntax highlighting overrides for better Python colors */
+/* These classes come from Pandoc/Quarto tokenization (kw=f.keyword, fu=function, st=string, dv/dn/bn=numbers, im=import, co=comment, op=operator) */
+.reveal pre code span.kw { color: #c678dd; font-weight: 700; }       /* keywords */
+.reveal pre code span.im { color: #61afef; font-weight: 600; }       /* imports/module names */
+.reveal pre code span.fu { color: #61afef; }                         /* function names */
+.reveal pre code span.st { color: #1f4d7a; }                         /* strings - dark blue */
+.reveal pre code span.ch { color: #1f4d7a; }                         /* chars - dark blue */
+.reveal pre code span.dv,
+.reveal pre code span.bn,
+.reveal pre code span.fl { color: #d19a66; }                         /* numbers */
+.reveal pre code span.op { color: #56b6c2; }                         /* operators */
+.reveal pre code span.co { color: #6a737d; font-style: italic; }     /* comments */
+.reveal pre code span.va { color: #e06c75; }                         /* variables */
+.reveal pre code span.at { color: #e06c75; }                         /* attributes/params */
+.reveal pre code span.an { color: #e5c07b; }                         /* annotations */
+
+/* Inline code tokens too */
+.reveal code span.kw { color: #c678dd; font-weight: 700; }
+.reveal code span.st { color: #1f4d7a; }
+.reveal code span.ch { color: #1f4d7a; }
+.reveal code span.co { color: #6a737d; font-style: italic; }
+
 /* Tables - Updated for white background */
 .reveal table {
     margin: auto;
