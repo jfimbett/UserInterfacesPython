@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>{{ title }}</h1>
+  <div class="card">
+    <h2 style="margin-top: 0;">Welcome, {{ name or 'Guest' }}!</h2>
+    <p><strong>Email:</strong> {{ email or '—' }}</p>
+    <p><strong>Role:</strong> {{ role or '—' }}</p>
+    <p><strong>Subscribed:</strong> {{ 'Yes' if subscribe else 'No' }}</p>
+    {% if bio %}
+      <h3>Bio</h3>
+      <p style="white-space: pre-wrap;">{{ bio }}</p>
+    {% endif %}
+    <p>
+      <a href="{{ url_for('home') }}">Start over</a>
+    </p>
+  </div>
+{% endblock %}

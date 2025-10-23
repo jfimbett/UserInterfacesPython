@@ -1,0 +1,11 @@
+click
+typer
+rich
+tqdm
+flask
+streamlit
+fire
+docopt
+pandas
+numpy
+yfinance

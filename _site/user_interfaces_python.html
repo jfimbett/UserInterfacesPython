@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/tabby.min.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
+
+  <meta name="author" content="Juan F. Imbet">
+  <meta name="dcterms.date" content="2025-10-23">
+  <title>User Interfaces (UIs) in Python</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="src/assets/styles.css">
+  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section class="quarto-title-block center">
+  <h1 class="title">User Interfaces (UIs) in Python</h1>
+  <p class="subtitle">CLI, TUI, and Web Apps: Click · Typer · Fire · docopt · Rich · tqdm · Flask · Streamlit</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Juan F. Imbet 
+</div>
+        <p class="quarto-title-affiliation">
+            Master 2 (203) Financial Markets — Paris Dauphine · PSL
+          </p>
+    </div>
+</div>
+
+  <p class="date">2025-10-23</p>
+</section>
+<section class="slide level2">
+<h2>Course overview and goals</h2>
+<ul>
+<li>Understand the Python UI landscape: CLI, TUI, and Web UIs</li>
+<li>Learn modern CLI tooling: Click, Typer, Fire, docopt</li>
+<li>Master terminal UX: colors, progress, animations with Rich and tqdm</li>
+<li>Build simple web UIs with Flask and Streamlit</li>
+<li>Practice professional app structure, packaging, and testing</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Agenda for the day</h2>
+<ul>
+<li>CLI fundamentals: args, parsing, structure, packaging</li>
+<li>Enhancing UX: colors, progress bars, animations, logs</li>
+<li>Framework deep dives: Click, Typer, Fire, docopt</li>
+<li>Web UIs: Flask (micro web), Streamlit (data apps)</li>
+<li>VS Code/Codespaces setup for UI development</li>
+<li>Best practices, testing, and deployment pointers</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Python UI landscape</h2>
+<ul>
+<li>CLI (command-line) for automation, DevOps, data workflows</li>
+<li>TUI/terminal apps with color, layout, progress, tables</li>
+<li>Web UIs for end users: Flask (routes/templates), Streamlit (widgets)</li>
+<li>Component libraries: Rich for terminal visuals, tqdm for progress</li>
+<li>Choosing the right tool depends on users, runtime, and distribution</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>CLI vs GUI vs Web: when to choose</h2>
+<ul>
+<li>CLI: repeatable tasks, scripting, integration, headless servers</li>
+<li>GUI/Web: interactive exploration, broader audience, onboarding</li>
+<li>Cost: CLIs are fast to build; Web adds hosting and state</li>
+<li>Observability: logs vs browser dev tools vs server logs</li>
+<li>Distribution: pip/pipx vs container/URL; security and updates</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Running Python scripts: standard args</h2>
+<ul>
+<li>python file.py arg1 arg2: args appear in sys.argv</li>
+<li>Use argparse for flags, types, help, defaults, validation</li>
+<li>Prefer explicit options (e.g., –input, –verbose) over positionals</li>
+<li>Support –version and –help for discoverability</li>
+<li>Exit codes: 0 success; non-zero for errors (e.g., sys.exit(2))</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># stdlib CLI skeleton</span></span>
+<span id="cb1-2"><a></a><span class="im">import</span> sys, argparse</span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a>parser <span class="op">=</span> argparse.ArgumentParser(prog<span class="op">=</span><span class="st">"demo"</span>, description<span class="op">=</span><span class="st">"Demo CLI"</span>)</span>
+<span id="cb1-5"><a></a>parser.add_argument(<span class="st">"path"</span>, <span class="bu">help</span><span class="op">=</span><span class="st">"Input file path"</span>)</span>
+<span id="cb1-6"><a></a>parser.add_argument(<span class="st">"--verbose"</span>, <span class="st">"-v"</span>, action<span class="op">=</span><span class="st">"count"</span>, default<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-7"><a></a>args <span class="op">=</span> parser.parse_args()</span>
+<span id="cb1-8"><a></a></span>
+<span id="cb1-9"><a></a><span class="bu">print</span>(<span class="ss">f"argv: </span><span class="sc">{</span>sys<span class="sc">.</span>argv<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-10"><a></a><span class="bu">print</span>(<span class="ss">f"path=</span><span class="sc">{</span>args<span class="sc">.</span>path<span class="sc">}</span><span class="ss">, verbose=</span><span class="sc">{</span>args<span class="sc">.</span>verbose<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>argparse essentials (stdlib)</h2>
+<ul>
+<li>Batteries-included, no extra dependency</li>
+<li>Generates –help and usage automatically</li>
+<li>Supports subcommands via subparsers</li>
+<li>Type conversion and validation (choices, types)</li>
+<li>Good baseline; consider Click/Typer for larger apps</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="im">import</span> argparse</span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a>parser <span class="op">=</span> argparse.ArgumentParser()</span>
+<span id="cb2-4"><a></a>sub <span class="op">=</span> parser.add_subparsers(dest<span class="op">=</span><span class="st">"cmd"</span>, required<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-5"><a></a></span>
+<span id="cb2-6"><a></a>p_run <span class="op">=</span> sub.add_parser(<span class="st">"run"</span>)</span>
+<span id="cb2-7"><a></a>p_run.add_argument(<span class="st">"--limit"</span>, <span class="bu">type</span><span class="op">=</span><span class="bu">int</span>, default<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb2-8"><a></a></span>
+<span id="cb2-9"><a></a>p_info <span class="op">=</span> sub.add_parser(<span class="st">"info"</span>)</span>
+<span id="cb2-10"><a></a>p_info.add_argument(<span class="st">"--json"</span>, action<span class="op">=</span><span class="st">"store_true"</span>)</span>
+<span id="cb2-11"><a></a></span>
+<span id="cb2-12"><a></a>args <span class="op">=</span> parser.parse_args()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Professional CLI UX: essentials</h2>
+<ul>
+<li>Consistent command shape: cmd subcmd [OPTIONS] [ARGS]</li>
+<li>Clear help: examples, defaults, environment variables</li>
+<li>Friendly errors: actionable messages, exit codes, –verbose</li>
+<li>Config layering: defaults → env → CLI → config file</li>
+<li>Telemetry and update checks: opt-in, transparent, documented</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Auto-update and versioning patterns</h2>
+<ul>
+<li>Expose –version and embed git/PEP 440 version in code</li>
+<li>Suggest upgrade path (pipx upgrade, brew upgrade, self-update)</li>
+<li>Optional update check with cache (daily) and timeout guards</li>
+<li>Respect proxies/offline; never block main execution</li>
+<li>Log to stderr; fail-soft on network errors</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Colors, styles, and layout in terminal</h2>
+<ul>
+<li>Use Rich for colors, markup, tables, panels, trees</li>
+<li>Prefer semantic styles over hard-coded ANSI</li>
+<li>Keep contrast and accessibility in mind</li>
+<li>Minimal color in CI; allow –no-color flag</li>
+<li>Test rendering width and fallback for narrow terminals</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> rich.console <span class="im">import</span> Console</span>
+<span id="cb3-2"><a></a><span class="im">from</span> rich.panel <span class="im">import</span> Panel</span>
+<span id="cb3-3"><a></a>Console().<span class="bu">print</span>(Panel.fit(<span class="st">"[bold cyan]Hello[/] [green]World![/]"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Animations and spinners (polish)</h2>
+<ul>
+<li>Show activity for slow steps (network, IO, compute)</li>
+<li>Use transient spinners that disappear on success</li>
+<li>Keep logs readable; avoid over-animated noise</li>
+<li>Consider CI detection to disable animations</li>
+<li>Provide –quiet and –verbose modes for control</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">from</span> rich.spinner <span class="im">import</span> Spinner</span>
+<span id="cb4-2"><a></a><span class="im">from</span> rich.live <span class="im">import</span> Live</span>
+<span id="cb4-3"><a></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
+<span id="cb4-4"><a></a>spinner <span class="op">=</span> Spinner(<span class="st">"dots"</span>, text<span class="op">=</span><span class="st">"Working…"</span>)</span>
+<span id="cb4-5"><a></a><span class="cf">with</span> Live(spinner, transient<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb4-6"><a></a>    sleep(<span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Progress bars with tqdm: intro</h2>
+<ul>
+<li>Wrap any iterable to visualize progress: tqdm(range(…))</li>
+<li>Auto ETA and rate; minimal code changes</li>
+<li>Works with lists, files, generators, pandas, requests</li>
+<li>Use total= for custom iterables or manual updates</li>
+<li>Nest with position= to avoid overlap</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb5-2"><a></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">10_000</span>)):</span>
+<span id="cb5-3"><a></a>    ...  <span class="co"># do work</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>tqdm: advanced patterns</h2>
+<ul>
+<li>Manual mode: bar.update(n) with bar.refresh()</li>
+<li>File iteration: tqdm(open(“big.csv”)) with desc=“Loading”</li>
+<li>Pandas: df.progress_apply(…); enable via tqdm.pandas()</li>
+<li>Nested loops: position=0/1 and leave=False for cleanup</li>
+<li>Logging compatibility: use tqdm.write for clean lines</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb6-2"><a></a><span class="cf">with</span> tqdm(total<span class="op">=</span><span class="dv">100</span>, desc<span class="op">=</span><span class="st">"Step"</span>) <span class="im">as</span> bar:</span>
+<span id="cb6-3"><a></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">20</span>):</span>
+<span id="cb6-4"><a></a>        bar.update(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Rich: terminal UI toolkit</h2>
+<ul>
+<li>Pretty print, markup, syntax-highlighted code</li>
+<li>Tables, panels, trees, progress, live dashboards</li>
+<li>Logging handler integrates with stdlib logging</li>
+<li>Tracebacks with code context and hyperlinks</li>
+<li>Works cross-platform; excellent docs and examples</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="im">from</span> rich.table <span class="im">import</span> Table</span>
+<span id="cb7-2"><a></a><span class="im">from</span> rich.console <span class="im">import</span> Console</span>
+<span id="cb7-3"><a></a></span>
+<span id="cb7-4"><a></a>console <span class="op">=</span> Console()</span>
+<span id="cb7-5"><a></a>table <span class="op">=</span> Table(title<span class="op">=</span><span class="st">"Results"</span>)</span>
+<span id="cb7-6"><a></a><span class="cf">for</span> col <span class="kw">in</span> (<span class="st">"id"</span>, <span class="st">"score"</span>, <span class="st">"status"</span>):</span>
+<span id="cb7-7"><a></a>    table.add_column(col, justify<span class="op">=</span><span class="st">"right"</span>)</span>
+<span id="cb7-8"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb7-9"><a></a>    table.add_row(<span class="bu">str</span>(i), <span class="ss">f"</span><span class="sc">{</span><span class="fl">0.9</span> <span class="op">-</span> i<span class="op">*</span><span class="fl">0.1</span><span class="sc">:.2f}</span><span class="ss">"</span>, <span class="st">"ok"</span>)</span>
+<span id="cb7-10"><a></a>console.<span class="bu">print</span>(table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Rich progress and live updates</h2>
+<ul>
+<li>Compose multiple progress bars with columns</li>
+<li>transient=True to clear bars after completion</li>
+<li>Update rich.Panel content during long tasks</li>
+<li>Integrate with async: rich.progress with tasks</li>
+<li>Keep output deterministic in CI</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">from</span> rich.progress <span class="im">import</span> Progress</span>
+<span id="cb8-2"><a></a><span class="cf">with</span> Progress() <span class="im">as</span> progress:</span>
+<span id="cb8-3"><a></a>    task <span class="op">=</span> progress.add_task(<span class="st">"Download"</span>, total<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb8-4"><a></a>    <span class="cf">while</span> <span class="kw">not</span> progress.finished:</span>
+<span id="cb8-5"><a></a>        progress.update(task, advance<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Click: overview</h2>
+<ul>
+<li>Mature, decorator-based CLI framework</li>
+<li>Commands, groups, options, prompts, validation</li>
+<li>Auto help, colors, environment variable support</li>
+<li>Context object for shared state and settings</li>
+<li>Great for medium–large applications</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="im">import</span> click</span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a><span class="at">@click.group</span>()</span>
+<span id="cb9-4"><a></a><span class="kw">def</span> cli():</span>
+<span id="cb9-5"><a></a>    <span class="co">"""Example CLI"""</span></span>
+<span id="cb9-6"><a></a></span>
+<span id="cb9-7"><a></a><span class="at">@cli.command</span>()</span>
+<span id="cb9-8"><a></a><span class="at">@click.option</span>(<span class="st">"--limit"</span>, default<span class="op">=</span><span class="dv">10</span>, show_default<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-9"><a></a><span class="kw">def</span> run(limit):</span>
+<span id="cb9-10"><a></a>    click.echo(<span class="ss">f"Running with limit=</span><span class="sc">{</span>limit<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-11"><a></a></span>
+<span id="cb9-12"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb9-13"><a></a>    cli()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Click: options, prompts, and types</h2>
+<ul>
+<li>Types: INT, FLOAT, PATH, Choice, custom types</li>
+<li>Prompts: click.prompt for interactive input</li>
+<li>Confirmation: click.confirm with abort=True</li>
+<li>File and directory parameters with path types</li>
+<li>Callbacks and validation hooks for robust UX</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="at">@click.command</span>()</span>
+<span id="cb10-2"><a></a><span class="at">@click.option</span>(<span class="st">"--mode"</span>, <span class="bu">type</span><span class="op">=</span>click.Choice([<span class="st">"fast"</span>,<span class="st">"safe"</span>]))</span>
+<span id="cb10-3"><a></a><span class="at">@click.option</span>(<span class="st">"--file"</span>, <span class="bu">type</span><span class="op">=</span>click.Path(exists<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb10-4"><a></a><span class="at">@click.option</span>(<span class="st">"--yes"</span>, is_flag<span class="op">=</span><span class="va">True</span>, <span class="bu">help</span><span class="op">=</span><span class="st">"Assume yes"</span>)</span>
+<span id="cb10-5"><a></a><span class="kw">def</span> main(mode, <span class="bu">file</span>, yes):</span>
+<span id="cb10-6"><a></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Click: command groups and config</h2>
+<ul>
+<li>Group subcommands into logical namespaces</li>
+<li>Shared context via <span class="citation" data-cites="click.pass_context">@click.pass_context</span> or objects</li>
+<li>Read config from TOML/YAML and env vars</li>
+<li>Provide –config to override defaults</li>
+<li>Generate shell completion for bash/zsh/fish</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="at">@click.group</span>()</span>
+<span id="cb11-2"><a></a><span class="at">@click.option</span>(<span class="st">"--config"</span>, <span class="bu">type</span><span class="op">=</span>click.Path())</span>
+<span id="cb11-3"><a></a><span class="at">@click.pass_context</span></span>
+<span id="cb11-4"><a></a><span class="kw">def</span> cli(ctx, config):</span>
+<span id="cb11-5"><a></a>    ctx.obj <span class="op">=</span> {<span class="st">"config"</span>: config}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Typer: overview</h2>
+<ul>
+<li>Built on Click; uses type hints for parsing</li>
+<li>Auto help, completion, and rich error messages</li>
+<li>Great DX: minimal boilerplate and IDE hints</li>
+<li>Scales from scripts to multi-command apps</li>
+<li>My default for new CLI projects</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">import</span> typer</span>
+<span id="cb12-2"><a></a>app <span class="op">=</span> typer.Typer()</span>
+<span id="cb12-3"><a></a></span>
+<span id="cb12-4"><a></a><span class="at">@app.command</span>()</span>
+<span id="cb12-5"><a></a><span class="kw">def</span> greet(name: <span class="bu">str</span>, times: <span class="bu">int</span> <span class="op">=</span> <span class="dv">1</span>, loud: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>):</span>
+<span id="cb12-6"><a></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(times):</span>
+<span id="cb12-7"><a></a>        msg <span class="op">=</span> <span class="ss">f"Hello </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb12-8"><a></a>        <span class="bu">print</span>(msg.upper() <span class="cf">if</span> loud <span class="cf">else</span> msg)</span>
+<span id="cb12-9"><a></a></span>
+<span id="cb12-10"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb12-11"><a></a>    app()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Typer: arguments, options, callbacks</h2>
+<ul>
+<li>Positional args = parameters without defaults</li>
+<li>Options = parameters with default values</li>
+<li>Use annotations for types and validation</li>
+<li>Callbacks for pre-run configuration (e.g., logging)</li>
+<li>Autocompletion for choices and enums</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="at">@app.callback</span>()</span>
+<span id="cb13-2"><a></a><span class="kw">def</span> main(verbose: <span class="bu">bool</span> <span class="op">=</span> typer.Option(<span class="va">False</span>, <span class="st">"--verbose"</span>, <span class="st">"-v"</span>)):</span>
+<span id="cb13-3"><a></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Typer vs Click: when to choose</h2>
+<ul>
+<li>Choose Typer if you like type hints and minimal boilerplate</li>
+<li>Choose Click for advanced context and ecosystem maturity</li>
+<li>Both generate help and completion; interop is easy</li>
+<li>Avoid mixing parsing libraries in one app</li>
+<li>Prefer consistency across your org/team</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Google Fire: instant CLIs</h2>
+<ul>
+<li>Turn any Python object into a CLI automatically</li>
+<li>Perfect for prototypes and internal tools</li>
+<li>Minimal boilerplate; discover APIs quickly</li>
+<li>Not ideal for polished UX or complex help</li>
+<li>Compose with argparse/Click for advanced needs</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">import</span> fire</span>
+<span id="cb14-2"><a></a><span class="kw">class</span> Tools:</span>
+<span id="cb14-3"><a></a>    <span class="kw">def</span> add(<span class="va">self</span>, a: <span class="bu">int</span>, b: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>: <span class="cf">return</span> a <span class="op">+</span> b</span>
+<span id="cb14-4"><a></a>    <span class="kw">def</span> greet(<span class="va">self</span>, name<span class="op">=</span><span class="st">"World"</span>): <span class="cf">return</span> <span class="ss">f"Hi </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">!"</span></span>
+<span id="cb14-5"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb14-6"><a></a>    fire.Fire(Tools)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>docopt: parse from usage strings</h2>
+<ul>
+<li>Define CLI contract via the usage docstring</li>
+<li>Parser derived from human-readable spec</li>
+<li>Elegant for simple, stable CLIs</li>
+<li>Less active project; fine for small tools</li>
+<li>Keep usage consistent with implementation</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="co">"""Usage: tool run [--fast] [--times=N]"""</span></span>
+<span id="cb15-2"><a></a><span class="im">from</span> docopt <span class="im">import</span> docopt</span>
+<span id="cb15-3"><a></a>args <span class="op">=</span> docopt(__doc__, version<span class="op">=</span><span class="st">"1.0.0"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Packaging CLIs for users</h2>
+<ul>
+<li>Use pyproject.toml [project.scripts] for entry points</li>
+<li>Recommend pipx for isolated global installs</li>
+<li>Provide brew/binaries if you target macOS</li>
+<li>Pin dependencies; semantic versioning</li>
+<li>Document upgrade path and changelog</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource toml number-lines code-with-copy"><code class="sourceCode toml"><span id="cb16-1"><a></a><span class="kw">[project.scripts]</span></span>
+<span id="cb16-2"><a></a><span class="dt">mytool</span> <span class="op">=</span> <span class="st">"pkg.module:app"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Example: Typer + Rich mini app (1/3)</h2>
+<ul>
+<li>Goal: CSV summary with pretty table and progress</li>
+<li>CLI: input path, delimiter option, verbose flag</li>
+<li>Rich table for output; progress during parsing</li>
+<li>Errors → non-zero exit and friendly message</li>
+<li>Structure ready for packaging as a script</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="im">import</span> csv, typer</span>
+<span id="cb17-2"><a></a><span class="im">from</span> rich.table <span class="im">import</span> Table</span>
+<span id="cb17-3"><a></a><span class="im">from</span> rich.console <span class="im">import</span> Console</span>
+<span id="cb17-4"><a></a><span class="im">from</span> rich.progress <span class="im">import</span> track</span>
+<span id="cb17-5"><a></a></span>
+<span id="cb17-6"><a></a>app <span class="op">=</span> typer.Typer()</span>
+<span id="cb17-7"><a></a>console <span class="op">=</span> Console()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Example: Typer + Rich mini app (2/3)</h2>
+<ul>
+<li>Read rows with track(…) for progress bar</li>
+<li>Count rows and distinct values</li>
+<li>Render a Rich table of summary stats</li>
+<li>Handle FileNotFoundError cleanly</li>
+<li>Return exit code via raise typer.Exit(code)</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="at">@app.command</span>()</span>
+<span id="cb18-2"><a></a><span class="kw">def</span> summarize(path: <span class="bu">str</span>, delim: <span class="bu">str</span> <span class="op">=</span> <span class="st">","</span>):</span>
+<span id="cb18-3"><a></a>    <span class="cf">try</span>:</span>
+<span id="cb18-4"><a></a>        rows <span class="op">=</span> <span class="bu">list</span>(track(csv.DictReader(<span class="bu">open</span>(path), delimiter<span class="op">=</span>delim),</span>
+<span id="cb18-5"><a></a>                          description<span class="op">=</span><span class="st">"Reading"</span>))</span>
+<span id="cb18-6"><a></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb18-7"><a></a>        console.<span class="bu">print</span>(<span class="st">"[red]File not found[/]"</span>)</span>
+<span id="cb18-8"><a></a>        <span class="cf">raise</span> typer.Exit(code<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb18-9"><a></a>    cols <span class="op">=</span> rows[<span class="dv">0</span>].keys() <span class="cf">if</span> rows <span class="cf">else</span> []</span>
+<span id="cb18-10"><a></a>    table <span class="op">=</span> Table(title<span class="op">=</span><span class="st">"Summary"</span>)</span>
+<span id="cb18-11"><a></a>    <span class="cf">for</span> c <span class="kw">in</span> cols: table.add_column(c)</span>
+<span id="cb18-12"><a></a>    <span class="cf">if</span> rows: table.add_row(<span class="op">*</span>[<span class="bu">str</span>(<span class="bu">len</span>(rows)) <span class="cf">for</span> _ <span class="kw">in</span> cols])</span>
+<span id="cb18-13"><a></a>    console.<span class="bu">print</span>(table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Example: Typer + Rich mini app (3/3)</h2>
+<ul>
+<li>Add –version and –verbose flags</li>
+<li>Package with entry point in pyproject.toml</li>
+<li>Test with pytest and Typer CliRunner</li>
+<li>Document examples in README with copy-paste</li>
+<li>Ship via pipx for easy install</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb19-2"><a></a>    app()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Flask: micro web framework</h2>
+<ul>
+<li>Routing with decorators: GET/POST endpoints</li>
+<li>Jinja templates for HTML rendering</li>
+<li>Request handling, forms, sessions, cookies</li>
+<li>JSON APIs with jsonify; blueprints for structure</li>
+<li>Ideal for small to medium services</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="im">from</span> flask <span class="im">import</span> Flask, render_template</span>
+<span id="cb20-2"><a></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb20-3"><a></a></span>
+<span id="cb20-4"><a></a><span class="at">@app.get</span>(<span class="st">"/"</span>)</span>
+<span id="cb20-5"><a></a><span class="kw">def</span> home():</span>
+<span id="cb20-6"><a></a>    <span class="cf">return</span> render_template(<span class="st">"index.html"</span>, title<span class="op">=</span><span class="st">"Home"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Flask: templates and forms</h2>
+<ul>
+<li>Templates in templates/ directory by default</li>
+<li>Use layout.html and blocks to DRY markup</li>
+<li>WTForms or simple form parsing via request.form</li>
+<li>Static assets via static/ path prefix</li>
+<li>Use app.config for secrets and runtime settings</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource html number-lines code-with-copy"><code class="sourceCode html"><span id="cb21-1"><a></a><span class="co">&lt;!-- templates/index.html --&gt;</span></span>
+<span id="cb21-2"><a></a>{% extends "layout.html" %}</span>
+<span id="cb21-3"><a></a>{% block body %}<span class="dt">&lt;</span><span class="kw">h1</span><span class="dt">&gt;</span>{{ title }}<span class="dt">&lt;/</span><span class="kw">h1</span><span class="dt">&gt;</span>{% endblock %}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Flask: testing and CLI integration</h2>
+<ul>
+<li>Flask test client for unit/integration tests</li>
+<li>Blueprints for modular routes and reuse</li>
+<li>Integrate Click commands via Flask CLI</li>
+<li>Config for dev/prod/testing via env vars</li>
+<li>Deploy with gunicorn/uvicorn behind a reverse proxy</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="im">from</span> flask.testing <span class="im">import</span> FlaskClient</span>
+<span id="cb22-2"><a></a>client: FlaskClient <span class="op">=</span> app.test_client()</span>
+<span id="cb22-3"><a></a>resp <span class="op">=</span> client.get(<span class="st">"/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Streamlit: data app framework</h2>
+<ul>
+<li>Rapid app dev with Python-only scripts</li>
+<li>Widgets: slider, selectbox, text_input, file_uploader</li>
+<li>Live re-execution on interaction</li>
+<li>Built-in layout, media, charts, and caching</li>
+<li>Great for demos, prototyping, and internal tools</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
+<span id="cb23-2"><a></a>st.title(<span class="st">"Demo App"</span>)</span>
+<span id="cb23-3"><a></a>name <span class="op">=</span> st.text_input(<span class="st">"Name"</span>)</span>
+<span id="cb23-4"><a></a><span class="cf">if</span> st.button(<span class="st">"Greet"</span>): st.success(<span class="ss">f"Hello </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Streamlit: layout, state, caching</h2>
+<ul>
+<li>Arrange columns with st.columns and st.sidebar</li>
+<li>Use st.session_state for state across runs</li>
+<li>Cache data with st.cache_data and functions with st.cache_resource</li>
+<li>File uploader for CSV/Excel ingestion</li>
+<li>Use experimental_rerun for flow control when needed</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>left, right <span class="op">=</span> st.columns(<span class="dv">2</span>)</span>
+<span id="cb24-2"><a></a><span class="cf">with</span> left: st.metric(<span class="st">"Score"</span>, <span class="dv">95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Streamlit: charts and data</h2>
+<ul>
+<li>st.line_chart, st.bar_chart for quick plots</li>
+<li>Use Altair, Plotly, or Matplotlib components</li>
+<li>Dataframe display with st.dataframe and styling</li>
+<li>Interactive filters connected to charts</li>
+<li>Performance: prefer vectorized ops and caching</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd, numpy <span class="im">as</span> np</span>
+<span id="cb25-2"><a></a>st.line_chart(pd.DataFrame(np.random.randn(<span class="dv">30</span>, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>VS Code/Codespaces for UI dev</h2>
+<ul>
+<li>Install Python, Pylance, Jupyter, and Streamlit extensions</li>
+<li>Integrated terminal and debugger for CLIs and Flask</li>
+<li>Launch configs for app.py and Streamlit run</li>
+<li>Tasks to lint, test, and package CLIs</li>
+<li>Dev containers/Codespaces replicate environments reliably</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Debugging CLIs and web apps</h2>
+<ul>
+<li>CLI: use argparse/Typer to surface parameters</li>
+<li>Logging levels with –verbose for diagnosis</li>
+<li>Set breakpoints; inspect variables in VS Code debugger</li>
+<li>Flask debug with FLASK_DEBUG=1 (dev only)</li>
+<li>Streamlit config.toml to tweak server and caching</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Testing CLIs effectively</h2>
+<ul>
+<li>Use pytest and CliRunner (Typer/Click) for invocations</li>
+<li>Golden output tests for help and common paths</li>
+<li>Mock IO, network, and time for determinism</li>
+<li>Validate exit codes and error messages</li>
+<li>Keep fixtures small and fast for tight feedback</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a><span class="im">from</span> typer.testing <span class="im">import</span> CliRunner</span>
+<span id="cb26-2"><a></a>runner <span class="op">=</span> CliRunner()</span>
+<span id="cb26-3"><a></a>result <span class="op">=</span> runner.invoke(app, [<span class="st">"--help"</span>])</span>
+<span id="cb26-4"><a></a><span class="cf">assert</span> result.exit_code <span class="op">==</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+<h2>Structure for maintainable CLIs</h2>
+<ul>
+<li>src/ layout with package <strong>init</strong>.py and modules</li>
+<li>commands/ for subcommands; utils/ for helpers</li>
+<li>config/ for defaults; logging/ setup; tests/</li>
+<li>pyproject.toml with scripts and pinned deps</li>
+<li>CI workflow to lint, test, and build</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Logging and observability</h2>
+<ul>
+<li>Use stdlib logging with Rich handler for color</li>
+<li>Structured logs for machine parsing (JSON if needed)</li>
+<li>Separate user messages (stdout) from logs (stderr)</li>
+<li>Tracebacks pretty-printed with rich.traceback</li>
+<li>Include correlation IDs for multi-process flows</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Distribution and updates</h2>
+<ul>
+<li>pipx recommended for end-user CLIs</li>
+<li>Homebrew formula for macOS users (optional)</li>
+<li>Single-file zipapp or PyInstaller for no-Python hosts</li>
+<li>Self-update commands with signature checks</li>
+<li>Signed releases and SBOMs for security-conscious orgs</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Security considerations</h2>
+<ul>
+<li>Validate and sanitize user input in CLIs and web</li>
+<li>Avoid printing secrets; redaction in logs</li>
+<li>Use .env files carefully; prefer env vars or vaults</li>
+<li>Keep dependencies updated; pin and scan for CVEs</li>
+<li>Rate-limit and CSRF protect Flask endpoints</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Accessibility and UX</h2>
+<ul>
+<li>Provide –help examples and readable error text</li>
+<li>Color contrast; support –no-color for accessibility</li>
+<li>Keyboard-only workflows for terminal/TUI</li>
+<li>ARIA and semantics in Flask templates</li>
+<li>Streamlit: consider font size and mobile layout</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Performance tips</h2>
+<ul>
+<li>Avoid per-item prints; batch and log smartly</li>
+<li>Use tqdm only when the loop is sufficiently long</li>
+<li>Rich live updates with minimal refresh rate</li>
+<li>Cache heavy computations (Streamlit/Flask layer)</li>
+<li>Profile hotspots with cProfile and line_profiler</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Putting it together: choosing wisely</h2>
+<ul>
+<li>Start with a CLI; add Streamlit for wider audience</li>
+<li>For services/APIs, prefer Flask with proper structure</li>
+<li>Use Typer+Rich for developer-facing tools</li>
+<li>Keep setup simple: pyproject + pipx</li>
+<li>Document examples and provide templates</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Resources and official docs</h2>
+<ul>
+<li>Rich: https://rich.readthedocs.io</li>
+<li>tqdm: https://tqdm.github.io</li>
+<li>Click: https://click.palletsprojects.com</li>
+<li>Typer: https://typer.tiangolo.com</li>
+<li>Flask: https://flask.palletsprojects.com</li>
+<li>Streamlit: https://docs.streamlit.io</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>Wrap-up and next steps</h2>
+<ul>
+<li>You can extend CLI to TUI with Textual (Rich-based)</li>
+<li>Add auth and persistence to Flask apps</li>
+<li>Deploy Streamlit to Streamlit Cloud or container</li>
+<li>Set up CI templates for CLI and web projects</li>
+<li>Share feedback and propose topics for next session</li>
+</ul>
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/your-site-url\.com");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

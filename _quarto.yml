@@ -1,29 +1,26 @@
 project:
   type: website
-  title: "Your Course Title"
+  title: "User Interfaces (UIs) in Python"
   output-dir: "_site"
   
 website:
-  title: "Your Course Title"
-  description: "Your Course Description"
+  title: "User Interfaces (UIs) in Python"
+  description: "CLI, TUI and Web UIs in Python: Click, Typer, Fire, docopt, Rich, tqdm, Flask, Streamlit."
   site-url: "https://your-site-url.com"
-  repo-url: "https://github.com/your-repo-url"
+  repo-url: "https://github.com/jfimbett/UserInterfacesPython"
   
   navbar:
-    title: "Your Course Title"
+    title: "UIs in Python"
     left:
       - text: "Home"
         href: index.html
       - text: "Course Days"
         menu:
-          - text: "Day 1: Title"
-            href: src/lectures/day1/lecture/index.qmd
-          - text: "Day 2: Title"
-            href: src/lectures/day2/lecture/index.qmd
-            # Add more days as needed
+          - text: "UI Slide Deck"
+            href: user_interfaces_python.qmd
     right:
       - icon: github
-        href: "https://github.com/your-repo-url"
+        href: "https://github.com/jfimbett/UserInterfacesPython"
 
 format:
   html:

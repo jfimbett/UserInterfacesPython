@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or 'Flask Demo' }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue: #2596be; }
+    body { font-family: 'Merriweather', serif; margin: 2rem; }
+    h1, h2, h3 { color: var(--blue); }
+    .card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1rem; }
+    button { background: var(--blue); color: #fff; border: none; padding: .5rem .75rem; border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  {% block body %}{% endblock %}
+</body>
+</html>

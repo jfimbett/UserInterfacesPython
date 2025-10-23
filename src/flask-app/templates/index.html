@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>{{ title }}</h1>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <div class="card">
+    <form method="post" action="{{ url_for('submit') }}">
+      <div style="margin-bottom: .5rem;">
+        <label for="name"><strong>Name*</strong></label><br/>
+        <input type="text" id="name" name="name" value="{{ form.name or '' }}" placeholder="Your full name" style="width: 100%; padding: .4rem;">
+      </div>
+
+      <div style="margin-bottom: .5rem;">
+        <label for="email"><strong>Email</strong></label><br/>
+        <input type="email" id="email" name="email" value="{{ form.email or '' }}" placeholder="you@example.com" style="width: 100%; padding: .4rem;">
+      </div>
+
+      <div style="margin-bottom: .5rem;">
+        <label for="role"><strong>Role</strong></label><br/>
+        <select id="role" name="role" style="width: 100%; padding: .4rem;">
+          {% set roles = ['Student', 'Researcher', 'Engineer', 'Analyst'] %}
+          {% for r in roles %}
+            <option value="{{ r }}" {% if form.role == r %}selected{% endif %}>{{ r }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div style="margin-bottom: .5rem;">
+        <label for="bio"><strong>Short Bio</strong></label><br/>
+        <textarea id="bio" name="bio" rows="4" placeholder="Tell us a bit about you" style="width: 100%; padding: .4rem;">{{ form.bio or '' }}</textarea>
+      </div>
+
+      <div style="margin-bottom: .75rem;">
+        <label><input type="checkbox" name="subscribe" {% if form.subscribe %}checked{% endif %}> Subscribe to updates</label>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+{% endblock %}

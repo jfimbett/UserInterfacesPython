@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Interfaces (UIs) in Python — Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue: #2596be; }
+    body { font-family: "Merriweather", serif; margin: 0; background:#fff; color:#000; }
+    .wrap { max-width: 880px; margin: 8vh auto; padding: 24px; }
+    h1 { color: var(--blue); font-size: 2.2rem; margin-bottom: 0.25rem; }
+    p.sub { color: var(--blue); font-weight: 600; margin-top: 0; }
+    .card { border: 1px solid #e9ecef; border-radius: 10px; padding: 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.06); background:#fff; }
+    a.button { display:inline-block; margin-top: 8px; padding: 12px 16px; border-radius: 8px; background: var(--blue); color: #fff; text-decoration: none; font-weight: 700; }
+    a.button:hover { background:#1f7a9a; }
+    ul { line-height: 1.6; }
+    footer { margin-top: 32px; color:#555; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>User Interfaces (UIs) in Python</h1>
+    <p class="sub">CLI · TUI · Web — Click · Typer · Fire · docopt · Rich · tqdm · Flask · Streamlit</p>
+
+    <div class="card">
+      <p>Open the slide deck (rendered to the <code>_site</code> folder) here:</p>
+      <p><a class="button" href="_site/user_interfaces_python.html">Open Slides</a></p>
+      <ul>
+        <li>If you haven't rendered yet, run: <code>quarto render user_interfaces_python.qmd --to revealjs</code></li>
+        <li>Slides inherit styles from <code>src/assets/styles.css</code>.</li>
+        <li>Repository: <a href="https://github.com/jfimbett/UserInterfacesPython">jfimbett/UserInterfacesPython</a></li>
+      </ul>
+    </div>
+
+    <footer>
+      Instructor: Juan F. Imbet · Master 2 (203) Financial Markets, Paris Dauphine — PSL
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,659 @@
+---
+title: "User Interfaces (UIs) in Python"
+subtitle: "CLI, TUI, and Web Apps: Click · Typer · Fire · docopt · Rich · tqdm · Flask · Streamlit"
+author: "Juan F. Imbet"
+institute: "Master 2 (203) Financial Markets — Paris Dauphine · PSL"
+date: "2025-10-23"
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: true
+    transition: slide
+    css: src/assets/styles.css
+---
+
+## Course overview and goals
+- Understand the Python UI landscape: CLI, TUI, and Web UIs
+- Learn modern CLI tooling: Click, Typer, Fire, docopt
+- Master terminal UX: colors, progress, animations with Rich and tqdm
+- Build simple web UIs with Flask and Streamlit
+- Practice professional app structure, packaging, and testing
+
+---
+
+## Agenda for the day
+- CLI fundamentals: args, parsing, structure, packaging
+- Enhancing UX: colors, progress bars, animations, logs
+- Framework deep dives: Click, Typer, Fire, docopt
+- Web UIs: Flask (micro web), Streamlit (data apps)
+- VS Code/Codespaces setup for UI development
+- Best practices, testing, and deployment pointers
+
+---
+
+## Python UI landscape
+- CLI (command-line) for automation, DevOps, data workflows
+- TUI/terminal apps with color, layout, progress, tables
+- Web UIs for end users: Flask (routes/templates), Streamlit (widgets)
+- Component libraries: Rich for terminal visuals, tqdm for progress
+- Choosing the right tool depends on users, runtime, and distribution
+
+---
+
+## CLI vs GUI vs Web: when to choose
+- CLI: repeatable tasks, scripting, integration, headless servers
+- GUI/Web: interactive exploration, broader audience, onboarding
+- Cost: CLIs are fast to build; Web adds hosting and state
+- Observability: logs vs browser dev tools vs server logs
+- Distribution: pip/pipx vs container/URL; security and updates
+
+---
+
+## Running Python scripts: standard args
+- python file.py arg1 arg2: args appear in sys.argv
+- Use argparse for flags, types, help, defaults, validation
+- Prefer explicit options (e.g., --input, --verbose) over positionals
+- Support --version and --help for discoverability
+- Exit codes: 0 success; non-zero for errors (e.g., sys.exit(2))
+
+```python
+# stdlib CLI skeleton
+import sys, argparse
+
+parser = argparse.ArgumentParser(prog="demo", description="Demo CLI")
+parser.add_argument("path", help="Input file path")
+parser.add_argument("--verbose", "-v", action="count", default=0)
+args = parser.parse_args()
+
+print(f"argv: {sys.argv}")
+print(f"path={args.path}, verbose={args.verbose}")
+```
+
+---
+
+## argparse essentials (stdlib)
+- Batteries-included, no extra dependency
+- Generates --help and usage automatically
+- Supports subcommands via subparsers
+- Type conversion and validation (choices, types)
+- Good baseline; consider Click/Typer for larger apps
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser()
+sub = parser.add_subparsers(dest="cmd", required=True)
+
+p_run = sub.add_parser("run")
+p_run.add_argument("--limit", type=int, default=100)
+
+p_info = sub.add_parser("info")
+p_info.add_argument("--json", action="store_true")
+
+args = parser.parse_args()
+```
+
+---
+
+## Professional CLI UX: essentials
+- Consistent command shape: cmd subcmd [OPTIONS] [ARGS]
+- Clear help: examples, defaults, environment variables
+- Friendly errors: actionable messages, exit codes, --verbose
+- Config layering: defaults → env → CLI → config file
+- Telemetry and update checks: opt-in, transparent, documented
+
+---
+
+## Auto-update and versioning patterns
+- Expose --version and embed git/PEP 440 version in code
+- Suggest upgrade path (pipx upgrade, brew upgrade, self-update)
+- Optional update check with cache (daily) and timeout guards
+- Respect proxies/offline; never block main execution
+- Log to stderr; fail-soft on network errors
+
+---
+
+## Colors, styles, and layout in terminal
+- Use Rich for colors, markup, tables, panels, trees
+- Prefer semantic styles over hard-coded ANSI
+- Keep contrast and accessibility in mind
+- Minimal color in CI; allow --no-color flag
+- Test rendering width and fallback for narrow terminals
+
+```python
+from rich.console import Console
+from rich.panel import Panel
+Console().print(Panel.fit("[bold cyan]Hello[/] [green]World![/]"))
+```
+
+---
+
+## Animations and spinners (polish)
+- Show activity for slow steps (network, IO, compute)
+- Use transient spinners that disappear on success
+- Keep logs readable; avoid over-animated noise
+- Consider CI detection to disable animations
+- Provide --quiet and --verbose modes for control
+
+```python
+from rich.spinner import Spinner
+from rich.live import Live
+from time import sleep
+spinner = Spinner("dots", text="Working…")
+with Live(spinner, transient=True):
+    sleep(1.0)
+```
+
+---
+
+## Progress bars with tqdm: intro
+- Wrap any iterable to visualize progress: tqdm(range(...))
+- Auto ETA and rate; minimal code changes
+- Works with lists, files, generators, pandas, requests
+- Use total= for custom iterables or manual updates
+- Nest with position= to avoid overlap
+
+```python
+from tqdm import tqdm
+for i in tqdm(range(10_000)):
+    ...  # do work
+```
+
+---
+
+## tqdm: advanced patterns
+- Manual mode: bar.update(n) with bar.refresh()
+- File iteration: tqdm(open("big.csv")) with desc="Loading"
+- Pandas: df.progress_apply(...); enable via tqdm.pandas()
+- Nested loops: position=0/1 and leave=False for cleanup
+- Logging compatibility: use tqdm.write for clean lines
+
+```python
+from tqdm import tqdm
+with tqdm(total=100, desc="Step") as bar:
+    for _ in range(20):
+        bar.update(5)
+```
+
+---
+
+## Rich: terminal UI toolkit
+- Pretty print, markup, syntax-highlighted code
+- Tables, panels, trees, progress, live dashboards
+- Logging handler integrates with stdlib logging
+- Tracebacks with code context and hyperlinks
+- Works cross-platform; excellent docs and examples
+
+```python
+from rich.table import Table
+from rich.console import Console
+
+console = Console()
+table = Table(title="Results")
+for col in ("id", "score", "status"):
+    table.add_column(col, justify="right")
+for i in range(3):
+    table.add_row(str(i), f"{0.9 - i*0.1:.2f}", "ok")
+console.print(table)
+```
+
+---
+
+## Rich progress and live updates
+- Compose multiple progress bars with columns
+- transient=True to clear bars after completion
+- Update rich.Panel content during long tasks
+- Integrate with async: rich.progress with tasks
+- Keep output deterministic in CI
+
+```python
+from rich.progress import Progress
+with Progress() as progress:
+    task = progress.add_task("Download", total=100)
+    while not progress.finished:
+        progress.update(task, advance=5)
+```
+
+---
+
+## Click: overview
+- Mature, decorator-based CLI framework
+- Commands, groups, options, prompts, validation
+- Auto help, colors, environment variable support
+- Context object for shared state and settings
+- Great for medium–large applications
+
+```python
+import click
+
+@click.group()
+def cli():
+    """Example CLI"""
+
+@cli.command()
+@click.option("--limit", default=10, show_default=True)
+def run(limit):
+    click.echo(f"Running with limit={limit}")
+
+if __name__ == "__main__":
+    cli()
+```
+
+---
+
+## Click: options, prompts, and types
+- Types: INT, FLOAT, PATH, Choice, custom types
+- Prompts: click.prompt for interactive input
+- Confirmation: click.confirm with abort=True
+- File and directory parameters with path types
+- Callbacks and validation hooks for robust UX
+
+```python
+@click.command()
+@click.option("--mode", type=click.Choice(["fast","safe"]))
+@click.option("--file", type=click.Path(exists=True))
+@click.option("--yes", is_flag=True, help="Assume yes")
+def main(mode, file, yes):
+    ...
+```
+
+---
+
+## Click: command groups and config
+- Group subcommands into logical namespaces
+- Shared context via @click.pass_context or objects
+- Read config from TOML/YAML and env vars
+- Provide --config to override defaults
+- Generate shell completion for bash/zsh/fish
+
+```python
+@click.group()
+@click.option("--config", type=click.Path())
+@click.pass_context
+def cli(ctx, config):
+    ctx.obj = {"config": config}
+```
+
+---
+
+## Typer: overview
+- Built on Click; uses type hints for parsing
+- Auto help, completion, and rich error messages
+- Great DX: minimal boilerplate and IDE hints
+- Scales from scripts to multi-command apps
+- My default for new CLI projects
+
+```python
+import typer
+app = typer.Typer()
+
+@app.command()
+def greet(name: str, times: int = 1, loud: bool = False):
+    for _ in range(times):
+        msg = f"Hello {name}"
+        print(msg.upper() if loud else msg)
+
+if __name__ == "__main__":
+    app()
+```
+
+---
+
+## Typer: arguments, options, callbacks
+- Positional args = parameters without defaults
+- Options = parameters with default values
+- Use annotations for types and validation
+- Callbacks for pre-run configuration (e.g., logging)
+- Autocompletion for choices and enums
+
+```python
+@app.callback()
+def main(verbose: bool = typer.Option(False, "--verbose", "-v")):
+    ...
+```
+
+---
+
+## Typer vs Click: when to choose
+- Choose Typer if you like type hints and minimal boilerplate
+- Choose Click for advanced context and ecosystem maturity
+- Both generate help and completion; interop is easy
+- Avoid mixing parsing libraries in one app
+- Prefer consistency across your org/team
+
+---
+
+## Google Fire: instant CLIs
+- Turn any Python object into a CLI automatically
+- Perfect for prototypes and internal tools
+- Minimal boilerplate; discover APIs quickly
+- Not ideal for polished UX or complex help
+- Compose with argparse/Click for advanced needs
+
+```python
+import fire
+class Tools:
+    def add(self, a: int, b: int) -> int: return a + b
+    def greet(self, name="World"): return f"Hi {name}!"
+if __name__ == "__main__":
+    fire.Fire(Tools)
+```
+
+---
+
+## docopt: parse from usage strings
+- Define CLI contract via the usage docstring
+- Parser derived from human-readable spec
+- Elegant for simple, stable CLIs
+- Less active project; fine for small tools
+- Keep usage consistent with implementation
+
+```python
+"""Usage: tool run [--fast] [--times=N]"""
+from docopt import docopt
+args = docopt(__doc__, version="1.0.0")
+```
+
+---
+
+## Packaging CLIs for users
+- Use pyproject.toml (PEP 621) to declare project metadata, dependencies, and console scripts
+- pipx runs Python CLIs in isolated virtualenvs and exposes them on your PATH (great for end users)
+- Provide Homebrew or standalone binaries if you target macOS or no-Python hosts
+- Version with SemVer (PEP 440), changelog, and minimal pinning for stability
+- Document install, upgrade, and uninstall workflows clearly
+
+```toml
+# pyproject.toml (snippet)
+[project]
+name = "mytool"
+version = "0.1.0"
+dependencies = ["typer", "rich"]
+
+[project.scripts]
+mytool = "pkg.module:app"
+```
+
+---
+
+## What is pyproject.toml?
+- A standardized config file (PEP 518/517/621) for Python projects
+- Declares metadata (name, version), dependencies, and build backend
+- Replaces setup.py/setup.cfg for most modern packages
+- Defines console scripts under [project.scripts] for CLI entry points
+- Supported by build tools like Hatchling, PDM, Poetry, and Setuptools
+
+---
+
+## What is pipx?
+- A tool to install and run Python applications in isolated environments
+- Installs each app into its own virtualenv and puts shims on your PATH
+- Ideal for end-user CLIs (avoids dependency conflicts with system/site)
+- Usage: pipx install mytool · pipx upgrade mytool · pipx uninstall mytool
+- Complements, not replaces, pip/conda for libraries used inside projects
+
+---
+
+## Example: Typer + Rich mini app (1/3)
+- Goal: CSV summary with pretty table and progress
+- CLI: input path, delimiter option, verbose flag
+- Rich table for output; progress during parsing
+- Errors → non-zero exit and friendly message
+- Structure ready for packaging as a script
+
+```python
+import csv, typer
+from rich.table import Table
+from rich.console import Console
+from rich.progress import track
+
+app = typer.Typer()
+console = Console()
+```
+
+---
+
+## Example: Typer + Rich mini app (2/3)
+- Read rows with track(...) for progress bar
+- Count rows and distinct values
+- Render a Rich table of summary stats
+- Handle FileNotFoundError cleanly
+- Return exit code via raise typer.Exit(code)
+
+```python
+@app.command()
+def summarize(path: str, delim: str = ","):
+    try:
+        rows = list(track(csv.DictReader(open(path), delimiter=delim),
+                          description="Reading"))
+    except FileNotFoundError:
+        console.print("[red]File not found[/]")
+        raise typer.Exit(code=2)
+    cols = rows[0].keys() if rows else []
+    table = Table(title="Summary")
+    for c in cols: table.add_column(c)
+    if rows: table.add_row(*[str(len(rows)) for _ in cols])
+    console.print(table)
+```
+
+---
+
+## Example: Typer + Rich mini app (3/3)
+- Add --version and --verbose flags
+- Package with entry point in pyproject.toml
+- Test with pytest and Typer CliRunner
+- Document examples in README with copy-paste
+- Ship via pipx for easy install
+
+```python
+if __name__ == "__main__":
+    app()
+```
+
+---
+
+## Flask: micro web framework
+- Routing with decorators: GET/POST endpoints
+- Jinja templates for HTML rendering
+- Request handling, forms, sessions, cookies
+- JSON APIs with jsonify; blueprints for structure
+- Ideal for small to medium services
+
+```python
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.get("/")
+def home():
+    return render_template("index.html", title="Home")
+```
+
+---
+
+## Flask: templates and forms
+- Templates in templates/ directory by default
+- Use layout.html and blocks to DRY markup
+- WTForms or simple form parsing via request.form
+- Static assets via static/ path prefix
+- Use app.config for secrets and runtime settings
+
+```html
+<!-- templates/index.html -->
+{% extends "layout.html" %}
+{% block body %}<h1>{{ title }}</h1>{% endblock %}
+```
+
+---
+
+## Flask: testing and CLI integration
+- Flask test client for unit/integration tests
+- Blueprints for modular routes and reuse
+- Integrate Click commands via Flask CLI
+- Config for dev/prod/testing via env vars
+- Deploy with gunicorn/uvicorn behind a reverse proxy
+
+```python
+from flask.testing import FlaskClient
+client: FlaskClient = app.test_client()
+resp = client.get("/")
+```
+
+---
+
+## Streamlit: data app framework
+- Rapid app dev with Python-only scripts
+- Widgets: slider, selectbox, text_input, file_uploader
+- Live re-execution on interaction
+- Built-in layout, media, charts, and caching
+- Great for demos, prototyping, and internal tools
+
+```python
+import streamlit as st
+st.title("Demo App")
+name = st.text_input("Name")
+if st.button("Greet"): st.success(f"Hello {name}")
+```
+
+---
+
+## Streamlit: layout, state, caching
+- Arrange columns with st.columns and st.sidebar
+- Use st.session_state for state across runs
+- Cache data with st.cache_data and functions with st.cache_resource
+- File uploader for CSV/Excel ingestion
+- Use experimental_rerun for flow control when needed
+
+```python
+left, right = st.columns(2)
+with left: st.metric("Score", 95)
+```
+
+---
+
+## Streamlit: charts and data
+- st.line_chart, st.bar_chart for quick plots
+- Use Altair, Plotly, or Matplotlib components
+- Dataframe display with st.dataframe and styling
+- Interactive filters connected to charts
+- Performance: prefer vectorized ops and caching
+
+```python
+import pandas as pd, numpy as np
+st.line_chart(pd.DataFrame(np.random.randn(30, 3)))
+```
+
+---
+
+## VS Code/Codespaces for UI dev
+- Install Python, Pylance, Jupyter, and Streamlit extensions
+- Integrated terminal and debugger for CLIs and Flask
+- Launch configs for app.py and Streamlit run
+- Tasks to lint, test, and package CLIs
+- Dev containers/Codespaces replicate environments reliably
+
+---
+
+## Debugging CLIs and web apps
+- CLI: use argparse/Typer to surface parameters
+- Logging levels with --verbose for diagnosis
+- Set breakpoints; inspect variables in VS Code debugger
+- Flask debug with FLASK_DEBUG=1 (dev only)
+- Streamlit config.toml to tweak server and caching
+
+---
+
+## Testing CLIs effectively
+- Use pytest and CliRunner (Typer/Click) for invocations
+- Golden output tests for help and common paths
+- Mock IO, network, and time for determinism
+- Validate exit codes and error messages
+- Keep fixtures small and fast for tight feedback
+
+```python
+from typer.testing import CliRunner
+runner = CliRunner()
+result = runner.invoke(app, ["--help"])
+assert result.exit_code == 0
+```
+
+---
+
+## Structure for maintainable CLIs
+- src/ layout with package __init__.py and modules
+- commands/ for subcommands; utils/ for helpers
+- config/ for defaults; logging/ setup; tests/
+- pyproject.toml with scripts and pinned deps
+- CI workflow to lint, test, and build
+
+---
+
+## Logging and observability
+- Use stdlib logging with Rich handler for color
+- Structured logs for machine parsing (JSON if needed)
+- Separate user messages (stdout) from logs (stderr)
+- Tracebacks pretty-printed with rich.traceback
+- Include correlation IDs for multi-process flows
+
+---
+
+## Distribution and updates
+- pipx recommended for end-user CLIs
+- Homebrew formula for macOS users (optional)
+- Single-file zipapp or PyInstaller for no-Python hosts
+- Self-update commands with signature checks
+- Signed releases and SBOMs for security-conscious orgs
+
+---
+
+## Security considerations
+- Validate and sanitize user input in CLIs and web
+- Avoid printing secrets; redaction in logs
+- Use .env files carefully; prefer env vars or vaults
+- Keep dependencies updated; pin and scan for CVEs
+- Rate-limit and CSRF protect Flask endpoints
+
+---
+
+## Accessibility and UX
+- Provide --help examples and readable error text
+- Color contrast; support --no-color for accessibility
+- Keyboard-only workflows for terminal/TUI
+- ARIA and semantics in Flask templates
+- Streamlit: consider font size and mobile layout
+
+---
+
+## Performance tips
+- Avoid per-item prints; batch and log smartly
+- Use tqdm only when the loop is sufficiently long
+- Rich live updates with minimal refresh rate
+- Cache heavy computations (Streamlit/Flask layer)
+- Profile hotspots with cProfile and line_profiler
+
+---
+
+## Putting it together: choosing wisely
+- Start with a CLI; add Streamlit for wider audience
+- For services/APIs, prefer Flask with proper structure
+- Use Typer+Rich for developer-facing tools
+- Keep setup simple: pyproject + pipx
+- Document examples and provide templates
+
+---
+
+## Resources and official docs
+- Rich: https://rich.readthedocs.io
+- tqdm: https://tqdm.github.io
+- Click: https://click.palletsprojects.com
+- Typer: https://typer.tiangolo.com
+- Flask: https://flask.palletsprojects.com
+- Streamlit: https://docs.streamlit.io
+
+---
+
+## Wrap-up and next steps
+- You can extend CLI to TUI with Textual (Rich-based)
+- Add auth and persistence to Flask apps
+- Deploy Streamlit to Streamlit Cloud or container
+- Set up CI templates for CLI and web projects
+- Share feedback and propose topics for next session
