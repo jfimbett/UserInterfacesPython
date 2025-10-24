@@ -4,6 +4,7 @@ import fire
 class Tools:
     """Google Fire example: exposes methods as CLI commands"""
     def add(self, a: int, b: int) -> int:
+        "This function adds two numbers"
         return a + b
 
     def greet(self, name: str = "World") -> str:

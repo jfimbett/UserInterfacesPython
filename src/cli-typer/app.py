@@ -10,7 +10,7 @@ from typing import Optional
 
 import typer
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 app = typer.Typer(add_completion=True, no_args_is_help=True, help="""
 Typer CLI example demonstrating:

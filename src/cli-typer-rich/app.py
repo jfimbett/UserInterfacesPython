@@ -53,5 +53,23 @@ def summarize(ctx: typer.Context, path: str, delim: str = ","):
         t2.add_row(*[str(v) for v in rows[0].values()])
         console.print(t2)
 
+import time 
+from rich.progress import Progress
+@app.command()
+def longfunction(ctx: typer.Context):
+    """This is a very long function with progress tracking."""
+    _debug(ctx, "Starting long function")
+    
+    
+    with Progress(console=console) as progress:
+        task = progress.add_task("[cyan]Processing...", total=10)
+        for i in range(10):
+            time.sleep(1)
+            progress.update(task, advance=1)
+    
+    console.print("[green]✓[/green] Long function completed!")
+
+
+
 if __name__ == "__main__":
     app()
